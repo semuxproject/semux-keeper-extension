@@ -1,0 +1,23 @@
+background scripts - 
+
+	content scripts 
+		- обычные скрипты на клиенте
+		- have access to Chrome API
+
+Put all code in - updateAccountData() and call it after make tx, first load and vote/unvote
+
+
+browser_action 
+	- main html file
+	- main icon
+
+
+
+CSS/HTML structure
+	- Every page need to have .app-body class with main info
+
+
+	All buttons who make APIs calls to semux lib will have id instead of class
+
+
+	content - eto imenno web stranica

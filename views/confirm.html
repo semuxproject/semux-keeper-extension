@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../libs/fontawesome.css">
+	<link rel="stylesheet" href='../css/index.css'>
+	<link rel="stylesheet" href="../libs/bootstrap.min.css">
+	<script src="../libs/popper.min.js"></script>
+	<script src="../libs/clipboard.min.js"></script>
+	<script src="../libs/jquery.js"></script>
+	<script src="../libs/bootstrap.min.js"></script>
+	<title>Semux Metamask</title>
+</head>
+<body>
+	<div class = 'confirmPage'>
+		<div class = 'app-head'>
+			<div class = 'goToSendPage pointer'>
+				<img src = '../img/icons/back.png'  width= '20px'/>
+				<span>Edit</span>
+			</div>
+		</div>
+		<div class = 'app-body'>
+			<div class ='flex'>
+				<p>From:</p>
+				<div class ='confirmFrom'></div>
+			</div>
+			<div class ='flex'>
+				<p>To:</p>
+				<div class ='confirmTo'></div>
+			</div>
+			<div class ='flex'>
+				<p>Amount:</p>
+				<div class ='confirmAmount'></div>
+			</div>
+			<div class ='flex'>
+				<p>Fee:</p>
+				<div class ='confirmFee'>
+					0.0005 SEM
+				</div>
+			</div>
+			<div class ='flex'>
+				<p>Type:</p>
+				<div class ='confirmType'></div>
+			</div>
+			<div class ='flex'>
+				<p>Total:</p>
+				<div class ='confirmTotal'></div>
+			</div>
+		</div>
+		<div class = 'app-footer'>
+			<div class = 'buttons' style = 'padding: 0 15px'>
+			  <button class ='btn btn-cancel'>Cancel</button>
+			  <button class ='btn' id = "requirePass" data-toggle="modal" data-target="#password">Confirm</button>
+			</div>
+			<div class="modal fade modalPassword" id="password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Confirm Transaction</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true"><img src="../img/icons/cross.png" width='20px' /></span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p>Input a password to confirm tx:</p>
+		        <input type="password" class = 'passwordField customInput'>
+		        <span class = 'error'></span>
+		      </div>
+		      <div class="modal-footer">
+		      	<div class = 'buttons'>
+			        <button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+			        <button type="button" class="btn" id="passwordConfirm">Confirm Tx</button>
+		      	</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</div>
+	</div>
+	<script src="../js/client.js"></script>
+	<script src="../js/fillConfirmData.js"></script>
+	<script src="../js/bundle.js"></script>
+</body>
+</html>

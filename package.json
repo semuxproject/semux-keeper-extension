@@ -1,0 +1,29 @@
+{
+  "name": "chrome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speedrunner911/semask.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/speedrunner911/semask/issues"
+  },
+  "homepage": "https://github.com/speedrunner911/semask#readme",
+  "dependencies": {
+    "buffer": "^5.2.1",
+    "jquery": "^3.4.1",
+    "long": "^4.0.0",
+    "node-forge": "^0.8.4",
+    "semux-js": "^1.4.0"
+  }
+}

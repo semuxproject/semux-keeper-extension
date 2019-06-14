@@ -1,0 +1,31 @@
+{
+	"manifest_version": 2,
+	"name": "Semux Metamask",
+	"description": "New Semux Light Wallet",
+	"version": "0.0.1",
+	"author": "speedrunner",
+	"icons": {
+		"128": "./img/128px.png"
+	},
+	"browser_action": {
+		"default_icon": "./img/19px.png",
+		"default_popup": "./views/home.html"
+	},
+
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+
+	"permissions": [
+		"tabs",
+		"storage",
+		"activeTab"
+
+	],
+
+	"content_scripts": [{
+		"matches": ["http://*/*","https://*/*"],
+		"js": ["./libs/jquery.js"]
+	}]
+}
