@@ -12,11 +12,6 @@
 		"default_popup": "./views/home.html"
 	},
 
-	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
-	},
-
 	"permissions": [
 		"tabs",
 		"storage",

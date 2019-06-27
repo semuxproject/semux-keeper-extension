@@ -1,5 +1,6 @@
 'use strict'
 /* global $, chrome, fetch */
+import { getExchangeRate } from './utils/exchanges.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
@@ -17,12 +18,14 @@ function fillSenderData () {
     const addressData = await response.json()
     const availableBal = formatAmount(addressData.result.available)
     userAmount = availableBal
-    const price = await getUsdPrice()
+    const price = await getExchangeRate('usd')
     const usdAmount = (price * availableBal).toFixed(4)
     $('div.senderAccount p.senderName').text(accountName)
     $('div.senderAccount p.senderAmount').text((availableBal).toFixed(5) + ' SEM')
     $('div.senderAccount p.senderUsdValue').text(usdAmount + ' USD')
-
+    if (!parseFloat(usdAmount)) {
+      $('div.senderAccount p.senderUsdValue').hide()
+    }
     // if we have some data in txData -> then we need to fill all fields
     chrome.storage.local.get('txData', (result) => {
       if (result.txData) {
@@ -111,16 +114,6 @@ $('button.goToApprovePage').on('click', function (e) {
     window.location.href = 'confirm.html'
   })
 })
-
-function getUsdPrice () {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('prices', (result) => {
-      if (result.prices) {
-        resolve(result.prices)
-      }
-    })
-  })
-}
 
 function getAddressFromStorage () {
   return new Promise((resolve, reject) => {

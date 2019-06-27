@@ -1,11 +1,11 @@
 'use strict'
 /* global $, chrome, fetch */
+import { getExchangeRate } from './utils/exchanges.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
 async function getAccountData () {
   const addresses = await getAddressFromStorage()
-  // latest or selected: true
   const latest = addresses.length - 1
   const response = await fetch(API + 'account?address=' + addresses[latest].address)
   const addressData = await response.json()
@@ -16,14 +16,14 @@ async function getAccountData () {
 
 async function fillAccount () {
   const data = await getAccountData()
-  const price = await getUsdPrice()
+  const price = await getExchangeRate('usd')
   if (!data) {
     console.error('Cannot retrieve account data from the remote Semux node.')
     return
   }
 
   const availableBal = formatAmount(data.result.available)
-  const usdAmount = (price * availableBal).toFixed(4)
+  const usdAmount = (price * availableBal).toFixed(2)
   const lockedBal = formatAmount(data.result.locked)
   const formedAddress = formatAddress(data.address)
 
@@ -32,6 +32,9 @@ async function fillAccount () {
   $('div.addressData p.hexAddress').attr('data-address', data.address)
   $('p.semValue').text(availableBal.toFixed(4) + ' SEM')
   $('p.usdValue').text(usdAmount + ' USD')
+  if (!parseFloat(usdAmount)) {
+    $('p.usdValue').hide()
+  }
   $('.semLocked').prepend('<span>' + lockedBal.toFixed(3) + ' SEM</span>')
   // getTxs
   if (data.result.transactionCount > 5) {
@@ -60,7 +63,6 @@ async function fillTxs (data, address) {
   if (!data) return { error: true, reason: 'Node API Drop' }
   let html = ''
   for (let tx of data.result) {
-    console.log(tx)
     let value = formatAmount(tx.value)
     const timestamp = tx.timestamp
     let type
@@ -97,16 +99,6 @@ async function fillTxs (data, address) {
       '</div>'
   }
   $('.transactionList').append(html)
-}
-
-function getUsdPrice () {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('prices', (result) => {
-      if (result.prices) {
-        resolve(result.prices)
-      }
-    })
-  })
 }
 
 function getAddressFromStorage () {
