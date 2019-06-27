@@ -7,6 +7,7 @@ $(function () {
 
 $('.goToHomePage').on('click', function (e) {
   e.preventDefault()
+  chrome.storage.local.set({ 'txData': {} })
   window.location.href = 'home.html'
 })
 
@@ -70,27 +71,8 @@ $('button.goToStex').on('click', function (e) {
   chrome.tabs.create({ url: 'https://app.stex.com/en/basic-trade/pair/BTC/SEM/1D' })
 })
 
-// newAccountPage
-$('.new-account button.btn-cancel').on('click', function (e) {
-  e.preventDefault()
-  window.location.href = 'home.html'
-})
-
-// cancel any action
 $('button.btn-cancel').on('click', function (e) {
   e.preventDefault()
-  window.location.href = 'home.html'
-})
-
-$('div.sendPage button.btn-cancel, div.confirmPage button.btn-cancel, div.votePage button.btn-cancel').on('click', function (e) {
-  // remove txData from "storage"
-  e.preventDefault()
-  chrome.storage.local.set({ 'txData': {} })
-})
-
-$('div.sendPage .goToHomePage').on('click', function (e) {
-  e.preventDefault()
-  // remove txData from "storage"
   chrome.storage.local.set({ 'txData': {} })
   window.location.href = 'home.html'
 })
@@ -99,11 +81,6 @@ $('div.transactionList').on('click', 'div.transactionItem', function (e) {
   e.preventDefault()
 
   $(this).parent().find('div.transactionExpand').toggle()
-})
-
-// why it doesn't work????
-$('p.transactionHeader').on('click', 'img', function (e) {
-  e.preventDefault()
 })
 
 $('select.selectImportType').on('change', function (e) {
