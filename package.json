@@ -1,5 +1,5 @@
 {
-  "name": "chrome",
+  "name": "semux-keeper-extension",
   "version": "1.0.0",
   "description": "",
   "main": "background.js",
@@ -7,23 +7,32 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/standard"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/speedrunner911/semask.git"
+    "url": "git+https://github.com/semuxproject/semux-keeper-extension.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/speedrunner911/semask/issues"
+    "url": "https://github.com/semuxproject/semux-keeper-extension/issues"
   },
-  "homepage": "https://github.com/speedrunner911/semask#readme",
+  "homepage": "https://github.com/semuxproject/semux-keeper-extension#readme",
+  "standard": {
+    "ignore": [
+      "libs",
+      "js/bundle.js"
+    ]
+  },
   "dependencies": {
     "buffer": "^5.2.1",
     "jquery": "^3.4.1",
     "long": "^4.0.0",
     "node-forge": "^0.8.4",
     "semux-js": "^1.4.0"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
   }
 }
