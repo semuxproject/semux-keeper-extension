@@ -28,3 +28,4 @@ async function getSemUsd () {
 
 // update local price every 30 min
 setInterval(getSemUsd, 60000 * 30)
+getSemUsd()

@@ -3,14 +3,11 @@
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
-// getBalance Func
 async function getAccountData () {
   const addresses = await getAddressFromStorage()
-  console.log(addresses)
   // latest or selected: true
   const latest = addresses.length - 1
   const response = await fetch(API + 'account?address=' + addresses[latest].address)
-
   const addressData = await response.json()
   addressData.address = addresses[latest].address
   addressData.name = addresses[latest].name
@@ -20,11 +17,16 @@ async function getAccountData () {
 async function fillAccount () {
   const data = await getAccountData()
   const price = await getUsdPrice()
-  if (!data) return { error: true, reason: 'Node API Drop' }
+  if (!data) {
+    console.error('Cannot retrieve account data from the remote Semux node.')
+    return
+  }
+
   const availableBal = formatAmount(data.result.available)
   const usdAmount = (price * availableBal).toFixed(4)
   const lockedBal = formatAmount(data.result.locked)
   const formedAddress = formatAddress(data.address)
+
   $('div.addressData p.nameAddress').text(data.name)
   $('div.addressData p.hexAddress').text(formedAddress)
   $('div.addressData p.hexAddress').attr('data-address', data.address)
