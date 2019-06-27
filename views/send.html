@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- <meta http-equiv="refresh" content="4" > -->
-	<meta charset = "UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../libs/fontawesome.css">
-	<link rel="stylesheet" href='../css/index.css'>
-	<link rel="stylesheet" href="../libs/bootstrap.min.css">
-	<script src="../libs/popper.min.js"></script>
-	<script src="../libs/clipboard.min.js"></script>
-	<script src="../libs/jquery.js"></script>
-	<script src="../libs/bootstrap.min.js"></script>
-	<title>Semux Metamask</title>
+  <!-- <meta http-equiv="refresh" content="4" > -->
+  <meta charset = "UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../libs/fontawesome.css">
+  <link rel="stylesheet" href='../css/index.css'>
+  <link rel="stylesheet" href="../libs/bootstrap.min.css">
+  <script src="../libs/popper.min.js"></script>
+  <script src="../libs/clipboard.min.js"></script>
+  <script src="../libs/jquery.js"></script>
+  <script src="../libs/bootstrap.min.js"></script>
+  <title>Semux Metamask</title>
 </head>
 <body>
-	<div class = 'main sendPage'>
-		<!-- ================= PUG Head =================== -->
-		<div class = 'app-header'>
-			<img src = '../img/128px.png' class = 'logo goToHomePage'/>
-			<div class = 'networkList'>
-				<div>Mainnet</div>
-				<img src = '../img/icons/arrowDown.png' width='16px' height="16px">
-			</div>
-			<div class = 'dropdown mainMenu'>
-				<div data-toggle='dropdown'><img class = 'verticalmenu' src = '../img/icons/verticalmenu.png'/></div>
-					<div class ='dropdown-menu'>
-						<ul>
-							<li class = 'menu-item goToNewAccPage'>
-								<div>
-									<img src = '../img/icons/add.png' width='20px'>Create new account
-								</div>
-							</li>
-							<li class = 'menu-item goToImportAccPage'>
-								<div >
-									<img src = '../img/icons/import.png' width='20px'>Import Account		
-								</div>
-							</li>
-							<li class = 'menu-item goToHardwarePage'>
-								<div>
-									<img src = '../img/icons/connect.png' width='20px'>Connet Hardware Wallet
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-		</div>
-		<!-- ============================================== -->
-		<div class = 'h3Headline borderBottom'>
-			<h3 class = 'h3title'>Transfer SEM</h3>
-			<img src = '../img/icons/cross.png' class = 'goToHomePage' width = '25px'/>
-		</div>
-		<div class = 'app-body'>
-			<div class = 'sendTxBlock'>
-				<div class = 'flex'>
-					<p>Sender: </p>
-					<!-- Show Name and Balance of Current Selected Wallet -->
-					<div class = 'senderAccount'>
-						<p class = 'senderName'></p>
-						<p class = 'senderAmount'></p>
-						<p class = 'senderUsdValue gray'></p>
-					</div>
-				</div>
-				<div class = 'flex'>
-					<p>Reciever:</p>
-					<span class = 'invalidAddress'></span>
-					<input type = 'text' class = 'customInput toAddress' placeholder="0x00" />
-				</div>
-				<div class = 'flex'>
-					<p>Amount:</p>
-					<span class = 'invalidAmount'></span>
-					<input type = 'text' class = 'customInput amount' placeholder="0 SEM" width='50px' />
-		  	</div>
-		  	<div class = 'buttons'>
-				  <button class ='btn btn-cancel'>Cancel</button>
-				  <button class ='btn goToApprovePage'>Next</button>
-		  	</div>
-		  	<span class = 'error'></span>
-		  </div>
-		</div>
-	</div>
-	<script src="../js/client.js"></script>
-	<script src="../js/fillSendData.js"></script>
+  <div class = 'main sendPage'>
+    <!-- ================= PUG Head =================== -->
+    <div class = 'app-header'>
+      <img src = '../img/128px.png' class = 'logo goToHomePage'/>
+      <div class = 'networkList'>
+        <div>Testnet</div>
+        <img src = '../img/icons/arrowDown.png' width='16px' height="16px">
+      </div>
+      <div class = 'dropdown mainMenu'>
+        <div data-toggle='dropdown'><img class = 'verticalmenu' src = '../img/icons/verticalmenu.png'/></div>
+        <div class ='dropdown-menu'>
+          <ul>
+            <li class = 'menu-item goToNewAccPage'>
+              <div>
+                <img src = '../img/icons/add.png' width='20px'>Create new account
+              </div>
+            </li>
+            <li class = 'menu-item goToImportAccPage'>
+              <div >
+                <img src = '../img/icons/import.png' width='20px'>Import Account
+              </div>
+            </li>
+            <li class = 'menu-item goToHardwarePage'>
+              <div>
+                <img src = '../img/icons/connect.png' width='20px'>Connet Hardware Wallet
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================== -->
+    <div class = 'h3Headline borderBottom'>
+      <h3 class = 'h3title'>Transfer SEM</h3>
+      <img src = '../img/icons/cross.png' class = 'goToHomePage' width = '25px'/>
+    </div>
+    <div class = 'app-body'>
+      <div class = 'sendTxBlock'>
+        <div class = 'flex'>
+          <p>Sender: </p>
+          <!-- Show Name and Balance of Current Selected Wallet -->
+          <div class = 'senderAccount'>
+            <p class = 'senderName'></p>
+            <p class = 'senderAmount'></p>
+            <p class = 'senderUsdValue gray'></p>
+          </div>
+        </div>
+        <div class = 'flex'>
+          <p>Reciever:</p>
+          <span class = 'invalidAddress'></span>
+          <input type = 'text' class = 'customInput toAddress' placeholder="0x00" />
+        </div>
+        <div class = 'flex'>
+          <p>Amount:</p>
+          <span class = 'invalidAmount'></span>
+          <input type = 'text' class = 'customInput amount' placeholder="0 SEM" width='50px' />
+        </div>
+        <div class = 'buttons'>
+          <button class ='btn btn-cancel'>Cancel</button>
+          <button class ='btn goToApprovePage'>Next</button>
+        </div>
+        <span class = 'error'></span>
+      </div>
+    </div>
+  </div>
+  <script src="../js/client.js"></script>
+  <script src="../js/fillSendData.js"></script>
 </body>
 </html>
