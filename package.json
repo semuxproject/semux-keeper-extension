@@ -1,7 +1,7 @@
 {
   "name": "semux-keeper-extension",
   "version": "1.0.0",
-  "description": "",
+  "description": "Semux Keeper browser extension allows users to interact with Semux blockchain and dapps.",
   "main": "background.js",
   "directories": {
     "doc": "docs"
