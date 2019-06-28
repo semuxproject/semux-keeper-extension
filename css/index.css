@@ -269,6 +269,11 @@ span.invalidAddress, span.invalidAmount {
   font-size: 18px;
 }
 
+.tx-internal {
+  color: #ffc107;
+  font-size: 18px;
+}
+
 .transactionList .txElement .transactionExpand {
   background: #fafbfc;
   height: 100%;

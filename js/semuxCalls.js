@@ -233,7 +233,7 @@ async function sendTxToApi (tx) {
     })
     var { result } = await response.json()
   } catch (e) {
-    console.log(e)
+    console.log(e.message)
   }
   if (result) return result
 }

@@ -1,44 +1,36 @@
 'use strict'
 /* global $, chrome, fetch */
 import { getExchangeRate } from './utils/exchanges.js'
+import { getLastActiveAccount } from './utils/accounts.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
 var userAmount
 
-function fillSenderData () {
-  chrome.storage.local.get('accounts', async (result) => {
-    const accounts = result.accounts
-    // lates - temp
-    // selected - in future
-    const latest = accounts.length - 1
-    const address = accounts[latest].address
-    const accountName = accounts[latest].name
-    const response = await fetch(API + 'account?address=' + address)
-    const addressData = await response.json()
-    const availableBal = formatAmount(addressData.result.available)
-    userAmount = availableBal
-    const price = await getExchangeRate('usd')
-    const usdAmount = (price * availableBal).toFixed(4)
-    $('div.senderAccount p.senderName').text(accountName)
-    $('div.senderAccount p.senderAmount').text((availableBal).toFixed(5) + ' SEM')
-    $('div.senderAccount p.senderUsdValue').text(usdAmount + ' USD')
-    if (!parseFloat(usdAmount)) {
-      $('div.senderAccount p.senderUsdValue').hide()
+async function fillSenderData () {
+  let activeAccount = await getLastActiveAccount()
+  const response = await fetch(API + 'account?address=' + activeAccount.address)
+  const addressData = await response.json()
+  const availableBal = formatAmount(addressData.result.available)
+  userAmount = availableBal
+  const price = await getExchangeRate('usd')
+  const usdAmount = (price * availableBal).toFixed(2)
+  $('div.senderAccount p.senderName').text(activeAccount.name)
+  $('div.senderAccount p.senderAmount').text((availableBal).toFixed(5) + ' SEM')
+  $('div.senderAccount p.senderUsdValue').text(usdAmount + ' USD')
+  if (!parseFloat(usdAmount)) {
+    $('div.senderAccount p.senderUsdValue').hide()
+  }
+  // if we have some data in txData -> then we need to fill all fields
+  chrome.storage.local.get('txData', (result) => {
+    if (result.txData) {
+      $('input.toAddress').val(result.txData.toAddress)
+      $('input.amount').val(result.txData.amount)
     }
-    // if we have some data in txData -> then we need to fill all fields
-    chrome.storage.local.get('txData', (result) => {
-      if (result.txData) {
-        $('input.toAddress').val(result.txData.toAddress)
-        $('input.amount').val(result.txData.amount)
-      }
-    })
   })
 }
 
 fillSenderData()
-
-// 0x6c15c4a676cc833fde9a58445482475c27d4cb41
 
 $('input.toAddress').on('change', function (e) {
   const value = $(this).val()
@@ -58,7 +50,7 @@ $('input.amount').on('change', function (e) {
     value = value.replace(/,/g, '.')
   }
   let amount = parseFloat(value)
-  if (!amount || amount > userAmount + 0.0005) {
+  if (!amount || amount > userAmount + 0.005) {
     $('button.goToApprovePage').prop('disabled', true)
     $('span.invalidAmount').show()
     $('span.invalidAmount').text('Invalid amount')
@@ -87,7 +79,7 @@ $('button.goToApprovePage').on('click', function (e) {
   chrome.storage.local.get('txData', async (result) => {
     var validatorAddress, fromAddress, privateKeySeleted
 
-    const accountName = $('div.senderAccount p.senderName').text()
+    const activeAccount = await getLastActiveAccount()
 
     // vote tx
     if (!toAddress) {
@@ -97,7 +89,7 @@ $('button.goToApprovePage').on('click', function (e) {
     const accounts = await getAddressFromStorage()
 
     for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].name === accountName) {
+      if (accounts[i].address === activeAccount.address) {
         fromAddress = accounts[i].address
         privateKeySeleted = accounts[i].privateKey
       }
@@ -105,7 +97,7 @@ $('button.goToApprovePage').on('click', function (e) {
 
     chrome.storage.local.set({ 'txData': {
       type: type || 'Transfer',
-      accountName,
+      accountName: activeAccount.name,
       fromAddress,
       privateKeySeleted,
       toAddress: toAddress || validatorAddress,

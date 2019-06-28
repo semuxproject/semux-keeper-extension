@@ -1,6 +1,7 @@
 'use strict'
 /* global $, chrome, fetch */
 import { getExchangeRate } from './utils/exchanges.js'
+import { getLastActiveAccount, getAllAccounts } from './utils/accounts.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
@@ -12,6 +13,11 @@ async function getAccountData () {
   }
   if (!lastActive) {
     return { error: true, reason: 'No account' }
+  } else {
+    chrome.storage.local.set({ 'lastActiveAccount': {
+      name: lastActive.name,
+      address: lastActive.address
+    } })
   }
   const response = await fetch(API + 'account?address=' + lastActive.address)
   const addressData = await response.json()
@@ -85,6 +91,9 @@ async function fillTxs (data, address) {
     let value = formatAmount(tx.value)
     const timestamp = tx.timestamp
     let type = tx.to === address ? 'in' : 'out'
+    if (tx.from === tx.to) {
+      type = 'internal'
+    }
     value = type === 'out' ? '-' + value : '+' + value
     html +=
       `<div class='txElement'><div class='transactionItem'><div class='txDataType'>` +
@@ -104,23 +113,6 @@ async function fillTxs (data, address) {
       `</div></div></div>`
   }
   $('.transactionList').append(html)
-}
-
-function getAllAccounts () {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('accounts', (result) => {
-      resolve(result.accounts)
-    })
-  })
-}
-
-function getLastActiveAccount () {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('lastActiveAccount', (result) => {
-      console.log(result)
-      resolve(result.lastActiveAccount)
-    })
-  })
 }
 
 // MOVE TO SEPARATE FILE
