@@ -50,7 +50,7 @@ $('a.showQR').on('click', function (e) {
   window.location.href = 'accountDetails.html'
 })
 
-$('div.goToNewAccPage').on('click', function (e) {
+$('div.goToNewAccPage, button.goToNewAccPage').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'newAccount.html'
 })
