@@ -10,6 +10,9 @@ async function getAccountData () {
   if (!lastActive) {
     lastActive = (await getAllAccounts())[0]
   }
+  if (!lastActive) {
+    return { error: true, reason: 'No account' }
+  }
   const response = await fetch(API + 'account?address=' + lastActive.address)
   const addressData = await response.json()
   addressData.address = lastActive.address
@@ -23,6 +26,11 @@ async function fillAccount () {
   const price = await getExchangeRate('usd')
   if (!data) {
     console.error('Cannot retrieve account data from the remote Semux node.')
+    return
+  }
+  if (data.error) {
+    /* TODO: Show welcome message */
+    console.log(data.reason)
     return
   }
 
