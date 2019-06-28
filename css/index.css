@@ -246,20 +246,27 @@ span.invalidAddress, span.invalidAmount {
   flex-direction: column;
 }
 
-.transactionList {
-  margin: 0 10px;
+.transactionList .transactionItem {
+  padding: 9px 15px 12px;
+  border-bottom: 1px solid #ccc;
 }
 
-.txElement {
-  margin: 10px 0;
+.txDataType {
+  float: left;
 }
 
-.transactionList .card-body {
-  padding: 15px;
+.transactionAmount {
+  float: right;
 }
 
-.card-body {
-  box-shadow: 0 2px 4px 0 rgba(155,166,178,0.4);
+.tx-in {
+  color: #66b49a;
+  font-size: 18px;
+}
+
+.tx-out {
+  color: #ed6d65;
+  font-size: 18px;
 }
 
 .transactionList .txElement .transactionExpand {

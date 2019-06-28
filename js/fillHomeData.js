@@ -84,38 +84,24 @@ async function fillTxs (data, address) {
   for (let tx of data.result) {
     let value = formatAmount(tx.value)
     const timestamp = tx.timestamp
-    let type
-    // change to better code
-    if (tx.type === 'TRANSFER') {
-      if (tx.from === address) {
-        type = 'Sent'
-      } else {
-        type = 'Recieved'
-      }
-    } else {
-      type = tx.type
-    }
-
-    value = type === 'Sent' ? '-' + value : '+' + value
-    html += "<div class = 'txElement card'>" +
-      "<div class = 'transactionItem card-body'>" +
-      "<div class = 'txDataType'>" +
-      "<p class = 'transactionDate'>" + formatData(timestamp) + '</p>' +
-      "<p class = 'tranasctionType'>" + type + ' Semux</p>' +
-      '</div>' +
-      "<p class = 'transactionAmount'>" + value + ' SEM</p></div>' +
-      "<div class = 'transactionExpand' >" +
-      "<div class = 'transactionExpandHeader'><p>Details:</p><p>" +
-      "<img  src ='../img/icons/share.png' width='22px' data-hash='" + tx.hash + "'/></p></div>" +
-      "<div class = 'transactionExpandBody'>" +
-      "<div class = 'tranasctionRow'><p>From: </p><p>" + formatAddress(tx.from, 12) + '</p></div>' +
-      "<div class = 'tranasctionRow'><p>To: </p><p>" + formatAddress(tx.to, 12) + '</p></div>' +
-      "<div class = 'tranasctionRow'><p>Amount: </p><p>" + tx.value / Math.pow(10, 9) + ' SEM </p></div>' +
-      "<div class = 'tranasctionRow'><p>Fee: </p><p>" + tx.fee / Math.pow(10, 9) + ' SEM </p></div>' +
-      "<div class = 'tranasctionRow'><p>Total: </p><p>" + (tx.value / Math.pow(10, 9) + tx.fee / Math.pow(10, 9)) + ' SEM </p></div>' +
-      '</div>' +
-      '</div>' +
-      '</div>'
+    let type = tx.to === address ? 'in' : 'out'
+    value = type === 'out' ? '-' + value : '+' + value
+    html +=
+      `<div class='txElement'><div class='transactionItem'><div class='txDataType'>` +
+      `<p class='tranasctionType'>${tx.type}</p>` +
+      `<p class='transactionDate'>${formatDate(timestamp)}</p>` +
+      `</div>` +
+      `<div class='transactionAmount tx-${type}'>${value} SEM</div><div class='clearfix'></div></div>` +
+      `<div class='transactionExpand' >` +
+      `<div class='transactionExpandHeader'><p>Details:</p><p>` +
+      `<img  src ='../img/icons/share.png' width='22px' data-hash='${tx.hash}'/></p></div>` +
+      `<div class='transactionExpandBody'>` +
+      `<div class='tranasctionRow'><p>From: </p><p>${formatAddress(tx.from, 12)}</p></div>` +
+      `<div class='tranasctionRow'><p>To: </p><p>${formatAddress(tx.to, 12)}</p></div>` +
+      `<div class='tranasctionRow'><p>Amount: </p><p>${tx.value / Math.pow(10, 9)} SEM </p></div>` +
+      `<div class='tranasctionRow'><p>Fee: </p><p>${tx.fee / Math.pow(10, 9)} SEM </p></div>` +
+      `<div class='tranasctionRow'><p>Total: </p><p>${(tx.value / Math.pow(10, 9) + tx.fee / Math.pow(10, 9))} SEM </p></div>` +
+      `</div></div></div>`
   }
   $('.transactionList').append(html)
 }
@@ -139,7 +125,7 @@ function getLastActiveAccount () {
 
 // MOVE TO SEPARATE FILE
 
-function formatData (string) {
+function formatDate (string) {
   let newDate = new Date()
   newDate.setTime(string)
   const month = newDate.getMonth() + 1
