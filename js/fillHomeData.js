@@ -12,7 +12,7 @@ async function getAccountData () {
     lastActive = (await getAllAccounts())[0]
   }
   if (!lastActive) {
-    return { error: true, reason: 'No account' }
+    return { error: true, code: 'NO_ACCOUNT' }
   } else {
     chrome.storage.local.set({ 'lastActiveAccount': {
       name: lastActive.name,
@@ -29,17 +29,16 @@ async function getAccountData () {
 async function fillAccount () {
   const accounts = await getAllAccounts()
   const data = await getAccountData()
-  const price = await getExchangeRate('usd')
   if (!data) {
     console.error('Cannot retrieve account data from the remote Semux node.')
     return
   }
-  if (data.error) {
-    /* TODO: Show welcome message */
-    console.log(data.reason)
+  if (data.error && data.code === 'NO_ACCOUNT') {
+    window.location.href = 'welcome.html'
     return
   }
 
+  const price = await getExchangeRate('usd')
   const availableBal = formatAmount(data.result.available)
   const usdAmount = (price * availableBal).toFixed(2)
   const lockedBal = formatAmount(data.result.locked)
