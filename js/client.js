@@ -11,6 +11,15 @@ $('.goToHomePage').on('click', function (e) {
   window.location.href = 'home.html'
 })
 
+$('select.activeAddress').on('change', function (e) {
+  e.preventDefault()
+  chrome.storage.local.set({ 'lastActiveAccount': {
+    name: $(this).data('name'),
+    address: $(this).val()
+  } })
+  window.location.href = 'home.html'
+})
+
 $('li.goToNewAccPage').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'newAccount.html#create-tab'
@@ -26,17 +35,17 @@ $('li.goToHardwarePage').on('click', function (e) {
   window.location.href = 'newAccount.html#connect-tab'
 })
 
-$('li.goToSemuxScan').on('click', function (e) {
-  const address = $('p.hexAddress').attr('data-address')
-  chrome.tabs.create({ url: 'https://semux.info/explorer/account/' + address })
+$('a.copyAddress').on('click', function (e) {
+  const address = $('.activeAddress').val()
+  navigator.clipboard.writeText(address)
 })
 
-$('button.goToSemuxScan').on('click', function (e) {
-  const address = $('div.hexAddress').attr('data-address')
-  chrome.tabs.create({ url: 'https://semux.info/explorer/account/' + address })
+$('a.openExplorer').on('click', function (e) {
+  const address = $('.activeAddress').val()
+  chrome.tabs.create({ url: 'https://testnet.semux.info/explorer/account/' + address })
 })
 
-$('li.goToAccountDetails').on('click', function (e) {
+$('a.showQR').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'accountDetails.html'
 })
@@ -46,17 +55,17 @@ $('div.goToNewAccPage').on('click', function (e) {
   window.location.href = 'newAccount.html'
 })
 
-$('button.goToSendPage, div.goToSendPage').on('click', function (e) {
+$('a.goToSendPage, div.goToSendPage').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'send.html'
 })
 
-$('button.goToVotePage').on('click', function (e) {
+$('a.goToVotePage').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'vote.html'
 })
 
-$('button.goToBuyPage').on('click', function (e) {
+$('a.goToBuyPage').on('click', function (e) {
   e.preventDefault()
   window.location.href = 'buy.html'
 })

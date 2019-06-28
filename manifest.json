@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
-	"name": "Semux Metamask",
-	"description": "New Semux Light Wallet",
+	"name": "Semux Keeper",
+	"description": "Semux Keeper is an extension that allows users to securely interact with Semux-enabled web services from the browser.",
 	"version": "0.0.1",
-	"author": "speedrunner",
+	"author": "Semux Developers",
 	"icons": {
 		"128": "./img/128px.png"
 	},

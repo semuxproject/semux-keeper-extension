@@ -1,527 +1,600 @@
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	font-style: Roboto;
-	border: 1px solid #ccc;
-	border-bottom: none;
-	width: 360px;
-	height: 600px;
-	overflow-y: overlay;
+  font-style: Roboto;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  width: 360px;
+  height: 600px;
+  overflow-y: overlay;
 }
 
 
 a {
-	text-decoration: none;
-}
-/* bug ? */
-p {
-	margin-bottom: 0 !important;
+  text-decoration: none;
 }
 
-img.logo {
-	width: 42px;
+p {
+  margin-bottom: 0 !important;
 }
 
 ul {
-	list-style: none;
+  list-style: none;
 }
 
 .h3title {
-	font-size: 28px;
-	margin-bottom: 23px;
-	font-weight: 500;
-	line-height: 43px;
+  font-size: 28px;
+  margin-bottom: 23px;
+  font-weight: 500;
+  line-height: 43px;
 }
 
 .h3Headline {
-	padding: 8px 15px 10px 15px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  padding: 8px 15px 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .h3Headline h3 {
-	margin: 0;
+  margin: 0;
 }
 
 .borderBottom {
-	border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .tooltip {
-	color: red;
+  color: red;
 }
 
 .gray {
-	color: #808080;
-}
-
-.networkList {
-	text-align: center;
+  color: #808080;
 }
 
 .buttons {
-	margin-top: 8px;
+  margin-top: 8px;
 }
 
 .buttons button {
-	color: #037DD6;
-	width: 90px;
-	border: 2px solid #B0D7F2;
-	background-color: #fff;
+  color: #037DD6;
+  width: 90px;
+  border: 2px solid #B0D7F2;
+  background-color: #fff;
 }
 
 .buttons button:hover {
-	border: 2px solid #FFC04C;
+  border: 2px solid #FFC04C;
 }
 
 button.btn-cancel {
-	background-color: #ccc;
-	border: 2px solid #666666;
+  background-color: #ccc;
+  border: 2px solid #666666;
 }
 
 span.error, span.invalidAddress, span.invalidAmount {
-	color: #f7861c;
-	position: absolute;
+  color: #f7861c;
+  position: absolute;
 }
 
 span.invalidAddress, span.invalidAmount {
-	margin-top: 17px;
-	font-size: 13px;
+  margin-top: 17px;
+  font-size: 13px;
 }
 
 .pointer:hover {
-	cursor: pointer;
+  cursor: pointer;
+}
+
+.clearfix {
+  clear: both;
 }
 
 /* ---------- End of Main Styles -------------- */
 
 .app-header, .app-head, .app-body {
-	padding: 15px;
+  padding: 15px;
 }
 
 .app-header {
-	display: flex;
-	background: #efefef;
-	align-items: center;
-	justify-content: space-between;
+  display: flex;
+  background: #efefef;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.app-header .networkList {
-	display: flex;
-	align-items: center;
-	padding: 5px;
-	border: 1.5px solid #ccc;
-	border-radius: 15px 15px;
+.app-header .logo span {
+  font-weight: 300;
 }
 
-.app-header .networkList img{
-	margin-left: 8px;
-}
-
-.app-header img.logo:hover {
-	cursor: pointer;
+.app-header .logo:hover {
+  cursor: pointer;
 }
 
 .app-header .mainMenu img.verticalmenu:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .app-header div.dropdown-menu {
-	position: fixed !important;
-	transform: none !important;
-	width: 300px;
-	top: 57px !important;
-	left: 50px !important;
-	border-radius: 4px;
-	background: #ccc;
-	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 2px 2px;
-	color: rgba(0, 0, 0, 0.8);
+  position: fixed !important;
+  transform: none !important;
+  width: 300px;
+  top: 57px !important;
+  left: 50px !important;
+  border-radius: 4px;
+  background: #ccc;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 2px 2px;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .app-header li.menu-item {
-	display: flex;
-	align-items: center;
-	padding: 14px;
+  display: flex;
+  align-items: center;
+  padding: 14px;
 }
 
 .app-header li.menu-item:hover, .app-head li.menu-item:hover {
-	cursor: pointer;
-	background-color: #7a7a7a;
+  cursor: pointer;
+  background-color: #7a7a7a;
 }
 
 .app-header li.menu-item img {
-	margin-right: 8px;
+  margin-right: 8px;
 }
 
 .dropdown-menu.show {
-	padding: 0;
+  padding: 0;
 }
 
 .app-head {
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px solid #efefef;
-	height: 55px;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FF9A8B;
+  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+  background: url('../img/bg.png');
+  background-size: cover;
 }
 
 .app-head .addressData {
-	font-size: 16px;
-	text-align: center;
+  font-size: 16px;
+  text-align: center;
 }
 
 .app-head .addressData p.hexAddress {
-	font-size: 14px;
+  font-size: 14px;
 }
 .app-head .accountOptions, .app-head .accountMenu {
-	cursor: pointer;
+  cursor: pointer;
 }
 .app-head #accountOptions {
-	display: none;
+  display: none;
 }
 
 .app-head .dropdown-menu {
-	transform: none !important;
-	position: fixed !important;
-	top: 120px !important;
-	left: 150px !important;
-	z-index: 2000;
-	padding: 0;
-	border-radius: 4px;
-	background: #ccc;
-	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 2px 2px;
-	color: rgba(0, 0, 0, 0.8);
+  transform: none !important;
+  position: fixed !important;
+  top: 120px !important;
+  left: 150px !important;
+  z-index: 2000;
+  padding: 0;
+  border-radius: 4px;
+  background: #ccc;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 2px 2px;
+  color: rgba(0, 0, 0, 0.8);
 }
 .app-head .dropdown-menu ul li {
-	align-items: center;
-	font-size: 16px;
-	display: flex;
-	height: 50px;
-	padding: 10px;
+  align-items: center;
+  font-size: 16px;
+  display: flex;
+  height: 50px;
+  padding: 10px;
 }
 
 .app-head .dropdown-menu ul li img {
-	margin-right: 8px;
+  margin-right: 8px;
 }
 
-
-.app-body {
-	margin-top: 10px;
-	height: 235px;
-}
-
-.app-body .semuxValue {	
-	text-align: center;
-	font-size: 30px;
+.app-body .semuxValue {
+  text-align: center;
+  font-size: 30px;
 }
 .app-body .semuxValue .circleBorder {
-	margin-top:13px;
-	margin-bottom: 13px;
+  margin-top:13px;
+  margin-bottom: 13px;
 }
 .app-body .semuxValue img#circleLogo {
-	padding: 5px;
-	border: 1px solid #ccc;
-	border-radius: 50%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
 }
 
 .semValue {
-	font-size: 1.75rem;
+  font-size: 1.75rem;
 }
 
 .semLocked {
-	font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 
 
 .app-body .semuxValue .usdValue {
-	font-size: 18px;
+  font-size: 18px;
 }
 
 .sendPage .senderUsdValue {
-	font-size: 15px;
+  font-size: 15px;
 }
 
 .historyLabel {
-	padding-left: 15px;
-	padding-bottom: 5px;
-	font-size: 16px;
-	border-bottom: 1px solid #ccc;
+  padding-left: 15px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
 }
 
 .app-footer {
-	height: 100px;
-	margin-top: 15px;
-}
-
-.transactionItem {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+  height: 100px;
+  margin-top: 15px;
 }
 
 .txDataType {
-	flex-direction: column;
+  flex-direction: column;
 }
 
-.transactionList .transactionItem {
-	padding: 9px 15px 12px;
-	height: 80px;
-	border-bottom: 1px solid #ccc;
+.transactionList {
+  margin: 0 10px;
+}
+
+.txElement {
+  margin: 10px 0;
+}
+
+.transactionList .card-body {
+  padding: 15px;
+}
+
+.card-body {
+  box-shadow: 0 2px 4px 0 rgba(155,166,178,0.4);
 }
 
 .transactionList .txElement .transactionExpand {
-	background: #fafbfc;
-	height: 100%;
-	padding: 9px 15px 12px;
-	font-size: 14px;
-	border-bottom: 1px solid #ccc;
-} 
+  background: #fafbfc;
+  height: 100%;
+  padding: 9px 15px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+}
 
 .transactionExpand .transactionExpandHeader {
-	display: flex;
-	justify-content: space-between;
-	text-align: center;
-	margin-bottom: 5px;
-	font-size: 15px;
-	font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .transactionExpand .transactionExpandHeader img {
-	padding: 4px;
-	border-radius: 6px;
-	align-items: center;
-	background-color: #fff;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+  border-radius: 6px;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .transactionExpand .transactionExpandHeader img:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .transactionExpand .transactionExpandBody .tranasctionRow {
-	font-size: .85rem;
-	color: #5d5d5d;
-	text-align: center;
-	display: flex;
-	justify-content: space-between;
-	padding: 5px;
-	border-bottom: 1px solid #ccc;
-	height: 35px;
+  font-size: .85rem;
+  color: #5d5d5d;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+  height: 35px;
 }
 
 
 
 
 .transactionList .transactionDate {
-	font-size: 13px;
-	color: #5e6064;
+  font-size: 13px;
+  color: #5e6064;
 }
 
 .transactionExpand {
-	display: none;
-	height: 100px;
+  display: none;
+  height: 100px;
 }
 
-.noTxs { 
-	text-align: center;
-	font-size: 14px;
-	margin-top: 10px;
+.noTxs {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 /* newAccount unique styles */
 /* temp styles */
 .new-account .createWalletForm {
-	padding-top: 30px;
+  padding-top: 30px;
 }
 .new-account .createWalletForm p {
-	font-size: 17px;
-	line-height: 21px;
-	margin-bottom: 15px !important;
+  font-size: 17px;
+  line-height: 21px;
+  margin-bottom: 15px !important;
 }
 
 
 /* -------->  Fix to the main style ? */
 .new-account .buttons, .sendTxBlock .buttons, .confirmPage .buttons {
-	margin-top: 30px;
-	display: flex;
-	justify-content: space-between;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 .new-account .buttons button, .sendTxBlock .buttons button,
 .confirmPage .buttons button {
-	height: 50px;
-	width: 160px;
+  height: 50px;
+  width: 160px;
 }
 
 input.customInput{
-	padding: 0 20px;
-	font-size: 16px;
-	width:100%;
-	height: 55px;
-	border: 1px solid #d2d8dd;
-	border-radius: 4px;
+  padding: 0 20px;
+  font-size: 16px;
+  width:100%;
+  height: 55px;
+  border: 1px solid #d2d8dd;
+  border-radius: 4px;
 }
 
 
 ul.nav.nav-tabs{
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 ul.nav.nav-tabs li {
-	text-align: center;
-	width: 33%;
+  text-align: center;
+  width: 33%;
 }
 
 .importJson {
-	margin-top: 15px;
+  margin-top: 15px;
 }
 
 .importJson input#file {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 
 /* Send And Vote Page */
 
 .sendTxBlock .flex, .confirmPage .flex {
-	margin-top: 8px;
-	display: flex;
-	justify-content: space-between;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
 }
 
 
 .sendTxBlock .flex input.customInput, .sendTxBlock .senderAccount {
-	width: 70%;
+  width: 70%;
 }
 
 .h3Headline .goToHomePage:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .senderAccount {
-	padding: 0 20px;
-	font-size: 16px;
-	border: 1px solid #d2d8dd;
+  padding: 0 20px;
+  font-size: 16px;
+  border: 1px solid #d2d8dd;
+}
+
+/* Home Page */
+.accountActions {
+  margin-top: 10px;
+}
+
+.accountActions .mainActions {
+  float: left;
+}
+
+.accountActions .mainActions a {
+  float: left;
+  margin-right: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: #f8f9fb;
+  border: 0.5px solid #edf0f4;
+  height: 26px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  background-position: 10% 50%;
+  padding: 0 8px 0 28px;
+  font-size: 12px;
+  color: #000;
+}
+
+.buySem {
+  background: url(../img/icons/buy.png);
+  background-repeat: no-repeat;
+  background-position: 10% 50%;
+  background-size: 18px;
+}
+
+.send {
+  background: url(../img/icons/send.png);
+  background-repeat: no-repeat;
+  background-position: 10% 50%;
+  background-size: 18px;
+}
+
+.vote {
+  background: url(../img/icons/vote.png);
+  background-repeat: no-repeat;
+  background-position: 10% 50%;
+  background-size: 18px;
+}
+
+.accountActions .controls {
+  float: right;
+  text-align: right;
+}
+
+.accountActions .controls a {
+  display: inline-block;
+  height: 26px;
+  width: 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 2px;
+}
+
+.accountActions .controls a:hover {
+  background-color: #edf0f4;
+}
+
+.copyAddress {
+  background: url(../img/icons/copy.png);
+  background-size: 18px;
+}
+
+.openExplorer {
+  background: url(../img/icons/external.png);
+  background-size: 20px;
+}
+
+.showQR {
+  background: url(../img/icons/qr.png);
+  background-size: 20px;
 }
 
 /* Confirm page */
 .confirmPage .app-head span {
-	font-size: 20px;
+  font-size: 20px;
 }
 .confirmPage .app-head div {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .confirmPage .app-body {
-	height: 100%;
+  height: 100%;
 }
 
 .confirmPage .app-footer {
-	border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 
 .confirmPage .flex {
-	align-items: center;
+  align-items: center;
 }
 
 .confirmPage .flex div {
-	padding: 10px 20px;
-	font-size: 16px;
-	height: 45px;
-	border: 1px solid #d2d8dd;
-	border-radius: 4px;
-	width: 70%;
+  padding: 10px 20px;
+  font-size: 16px;
+  height: 45px;
+  border: 1px solid #d2d8dd;
+  border-radius: 4px;
+  width: 70%;
 }
 
 .confirmPage .modalPassword {
-	margin-top: 100px;
+  margin-top: 100px;
 }
 
 .confirmPage .modalPassword .buttons {
-	padding: 0 15px;
-	display: flex;
-	justify-content: space-between;
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .confirmPage .modalPassword .buttons button{
-	height: 50px;
-	width: 140px;
+  height: 50px;
+  width: 140px;
 }
 
 .confirmPage .modal-body {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 select.customSelect {
-	background-color: transparent;
-	padding: 0 20px;
-	width: 70%;
-	font-size: 16px;
-	height: 55px;
-	border: 1px solid #d2d8dd;
-	border-radius: 4px;
+  background-color: transparent;
+  padding: 0 20px;
+  width: 70%;
+  font-size: 16px;
+  height: 55px;
+  border: 1px solid #d2d8dd;
+  border-radius: 4px;
 }
 
 
 /* Buy Page */
 .buyPage .app-body {
-	text-align: center;
+  text-align: center;
 }
 .buyPage .buttons button {
-	height:55px;
-	width: 80%;
+  height:55px;
+  width: 80%;
 }
 
 .buyPage .buyPlace {
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-	border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 /* AccountDetails Page */
 .accountDetails {
-	text-align: center;
+  text-align: center;
 }
 
 .accountDetails .app-body {
-	height: 100%;
+  height: 100%;
 }
 
 .accountDetails .app-body p.accountName {
-	height:30px;
-	font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 
 .accountDetails #qrcode {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .accountDetails .hexAddress {
-	display: flex;
-	justify-content: center;
-	margin-top: 15px;
-	border: 1px solid #ccc;
+  text-align: center;
+  font-size: 0.8rem;
 }
 
 .accountDetails .app-footer {
-	border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 
 .accountDetails .buttons {
-	margin-top: 30px;
-	
+  margin-top: 30px;
+
 }
 
 .accountDetails .buttons button{
-	margin-bottom: 10px;
-	width: 80%;
-	height: 50px;
+  margin-bottom: 10px;
+  width: 80%;
+  height: 50px;
+}
+
+a.back-link {
+  color: #444;
+  text-decoration: underline;
 }

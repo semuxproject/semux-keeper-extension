@@ -5,16 +5,20 @@ import { getExchangeRate } from './utils/exchanges.js'
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
 async function getAccountData () {
-  const addresses = await getAddressFromStorage()
-  const latest = addresses.length - 1
-  const response = await fetch(API + 'account?address=' + addresses[latest].address)
+  let lastActive = await getLastActiveAccount()
+  /* If for some reason last active account is not found, set the first one as active */
+  if (!lastActive) {
+    lastActive = (await getAllAccounts())[0]
+  }
+  const response = await fetch(API + 'account?address=' + lastActive.address)
   const addressData = await response.json()
-  addressData.address = addresses[latest].address
-  addressData.name = addresses[latest].name
+  addressData.address = lastActive.address
+  addressData.name = lastActive.name
   return addressData
 }
 
 async function fillAccount () {
+  const accounts = await getAllAccounts()
   const data = await getAccountData()
   const price = await getExchangeRate('usd')
   if (!data) {
@@ -27,7 +31,14 @@ async function fillAccount () {
   const lockedBal = formatAmount(data.result.locked)
   const formedAddress = formatAddress(data.address)
 
-  $('div.addressData p.nameAddress').text(data.name)
+  let accountsHtml = ''
+  for (let account of accounts) {
+    accountsHtml +=
+      `<option value="${account.address}" data-name="${account.name}"` +
+      `${account.address === data.address ? 'selected' : ''}>` +
+      `${account.name} (${formatAddress(account.address)})</option>`
+  }
+  $('div.addressData select.activeAddress').append(accountsHtml)
   $('div.addressData p.hexAddress').text(formedAddress)
   $('div.addressData p.hexAddress').attr('data-address', data.address)
   $('p.semValue').text(availableBal.toFixed(4) + ' SEM')
@@ -78,8 +89,8 @@ async function fillTxs (data, address) {
     }
 
     value = type === 'Sent' ? '-' + value : '+' + value
-    html += "<div class = 'txElement'>" +
-      "<div class = 'transactionItem'>" +
+    html += "<div class = 'txElement card'>" +
+      "<div class = 'transactionItem card-body'>" +
       "<div class = 'txDataType'>" +
       "<p class = 'transactionDate'>" + formatData(timestamp) + '</p>' +
       "<p class = 'tranasctionType'>" + type + ' Semux</p>' +
@@ -101,10 +112,19 @@ async function fillTxs (data, address) {
   $('.transactionList').append(html)
 }
 
-function getAddressFromStorage () {
+function getAllAccounts () {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get('accounts', (result) => {
       resolve(result.accounts)
+    })
+  })
+}
+
+function getLastActiveAccount () {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get('lastActiveAccount', (result) => {
+      console.log(result)
+      resolve(result.lastActiveAccount)
     })
   })
 }

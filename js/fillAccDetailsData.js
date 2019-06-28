@@ -17,7 +17,7 @@ async function fillAccDetailsData () {
   //   correctLevel: QRCode.CorrectLevel.H
   // })
   $('p.accountName').text(name)
-  $('div.hexAddress span').text(formatAddress(address))
+  $('div.hexAddress span').text(address)
   $('div.hexAddress span').attr('data-address', address)
 }
 
