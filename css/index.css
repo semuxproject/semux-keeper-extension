@@ -373,7 +373,7 @@ p.hint {
 
 /* newAccount unique styles */
 /* temp styles */
-.new-account .createWalletForm {
+.new-account .createWalletForm, .importWallet {
   padding-top: 30px;
 }
 .new-account .createWalletForm p {
@@ -404,15 +404,50 @@ input.customInput{
   border-radius: 4px;
 }
 
-
-ul.nav.nav-tabs{
-  display: flex;
-  justify-content: space-between;
-}
-
 ul.nav.nav-tabs li {
   text-align: center;
-  width: 33%;
+  width: 50%;
+}
+
+ul.nav.nav-tabs li a {
+  background-color: #e0e0e0;
+  border: 0;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 20px 0;
+  color: #999;
+}
+
+ul.nav.nav-tabs li a:hover {
+  background-color: #f0f0f0;
+}
+
+ul.nav.nav-tabs li a.active {
+  background-color: #434f61;
+  color: #fff;
+}
+
+button.green-button {
+  background-color: #3bc1aa;
+  border: 1px solid #3bc1aa;
+  color: #fff;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 4px;
+}
+
+button.green-button:hover {
+  background-color: #3ed7bc;
+  border: 1px solid #3ed7bc;
+}
+
+.importKey {
+  padding-top: 20px;
+}
+
+.createWalletForm .green-button,
+.importWallet .green-button {
+  margin: 20px 0;
 }
 
 .importJson {
