@@ -30,11 +30,3 @@ function getAddressFromStorage () {
     })
   })
 }
-
-function formatAddress (address) {
-  // first 6 and last 4 symbols
-  const first = address.substring(0, 15)
-  const last = address.substring(address.length - 15, address.length)
-  const result = first + '...' + last
-  return result
-}
