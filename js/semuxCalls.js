@@ -152,7 +152,6 @@ $('button#passwordConfirm').on('click', function (e) {
       if (accounts[i].address === accountAddress) {
         txObj.address = accounts[i].address
         // make it compatible with getKey func
-        console.log(accounts[i])
         keys = getKey({
           cipher: {
             salt: accounts[i].salt,
@@ -160,7 +159,6 @@ $('button#passwordConfirm').on('click', function (e) {
           },
           accounts: [{ encrypted: accounts[i].encrypted }]
         }, password)
-        console.log('Priva', (toHexString(keys.getEncodedPrivateKey())))
         if (keys.error) {
           return $('span.error').text(keys.reason)
         }
@@ -184,8 +182,6 @@ async function sendTx (txObj) {
   } catch (e) {
     return { error: true, reason: 'Cannot get nonce' }
   }
-  console.log('________________--')
-  console.log(txObj.privateKey)
   const nonce = parseInt(isFrom.nonce, 10) + parseInt(isFrom.pendingTransactionCount, 10)
 
   try {
