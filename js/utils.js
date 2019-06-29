@@ -59,5 +59,13 @@ module.exports = {
   formatAmount: (string) => {
     const digit = Number(string) / Math.pow(10, 9)
     return digit
+  },
+
+  remove0x: (string) => {
+    const isItHex = Boolean(string.match(/^(0x)/))
+    if (isItHex) {
+      return string.replace('0x', '')
+    }
+    return string
   }
 }

@@ -5,7 +5,7 @@ const { Network, TransactionType, Transaction, Key } = require('semux-js')
 const Long = require('long')
 const Buffer = require('buffer/').Buffer
 
-const { decrypt, encrypt, hexBytes, randomSalt, randomIv } = require('./utils.js')
+const { decrypt, encrypt, hexBytes, randomSalt, randomIv, remove0x } = require('./utils.js')
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 const FEE = 5000000
@@ -62,16 +62,22 @@ $('button#importWallet').on('click', function (e) {
     if (!password) return $('span.error').text('Password is required')
     // Need to remove dublicates
     if (importType === 'privateKey') {
-      const privateKey = $('input#accountPrivatKey').val()
-      const key = Semux.Key.importEncodedPrivateKey(Buffer.from(privateKey, 'hex'))
+      var key
+      let privateKey = $('input#accountPrivatKey').val()
+      privateKey = remove0x(privateKey)
+      try {
+        key = Semux.Key.importEncodedPrivateKey(Buffer.from(privateKey, 'hex'))
+      } catch (e) {
+        return $('span.error').text('Invalid Private Key')
+      }
       const address = '0x' + key.toAddressHexString()
-      const testData = createEncryptedWallet(key, password)
+      const encryptedData = createEncryptedWallet(key, password)
       accounts.push({
         name: 'Name ' + String(accounts.length + 1),
         address,
-        encrypted: testData.encrypted,
-        salt: testData.salt,
-        iv: testData.iv
+        encrypted: encryptedData.encrypted,
+        salt: encryptedData.salt,
+        iv: encryptedData.iv
       })
       chrome.storage.local.set({ 'accounts': accounts })
       window.location.href = 'home.html'
@@ -213,8 +219,6 @@ async function getAddress (address) {
 
 async function sendTxToApi (tx) {
   const serialize = Buffer.from(tx.toBytes().buffer).toString('hex')
-  console.log(serialize)
-
   try {
     const response = await fetch(API + 'transaction/raw?raw=' + serialize + '&validateNonce=true', {
       method: 'POST',
