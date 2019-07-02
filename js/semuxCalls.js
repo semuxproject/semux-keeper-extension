@@ -5,7 +5,7 @@ const { Network, TransactionType, Transaction, Key } = require('semux-js')
 const Long = require('long')
 const Buffer = require('buffer/').Buffer
 
-const { decrypt, encrypt, hexBytes, randomSalt, randomIv, remove0x } = require('./utils.js')
+const { decrypt, encrypt, hexBytes, randomSalt, randomIv } = require('./utils.js')
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 const FEE = 5000000
@@ -41,7 +41,7 @@ $('button#createWallet').on('click', function (e) {
     if (!password) return $('span.error').text('Password is required')
     var accountName = $('input#accountName').val()
     if (!accountName) {
-      accountName = 'Name ' + String(accounts.length + 1)
+      accountName = `Account ${accounts.length + 1}`
     }
     const account = createEncryptedWallet(null, password)
     account.name = accountName
@@ -63,8 +63,7 @@ $('button#importWallet').on('click', function (e) {
     // Need to remove dublicates
     if (importType === 'privateKey') {
       var key
-      let privateKey = $('input#accountPrivatKey').val()
-      privateKey = remove0x(privateKey)
+      let privateKey = $('input#accountPrivatKey').val().replace(/^0x/, '')
       try {
         key = Semux.Key.importEncodedPrivateKey(Buffer.from(privateKey, 'hex'))
       } catch (e) {
@@ -73,7 +72,7 @@ $('button#importWallet').on('click', function (e) {
       const address = '0x' + key.toAddressHexString()
       const encryptedData = createEncryptedWallet(key, password)
       accounts.push({
-        name: 'Name ' + String(accounts.length + 1),
+        name: `Account ${accounts.length + 1}`,
         address,
         encrypted: encryptedData.encrypted,
         salt: encryptedData.salt,
@@ -97,7 +96,7 @@ $('button#importWallet').on('click', function (e) {
           const encrypted = jsonFile.accounts[0].encrypted
           // test wallet pass = lol123
           accounts.push({
-            name: 'Name ' + String(accounts.length + 1),
+            name: `Account ${accounts.length + 1}`,
             address,
             salt,
             iv,
