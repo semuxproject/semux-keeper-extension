@@ -75,9 +75,10 @@ button.btn-cancel {
   border: 2px solid #666666;
 }
 
-span.error, span.invalidAddress, span.invalidAmount {
-  color: #f7861c;
-  position: absolute;
+p.error, span.error, span.invalidAddress, span.invalidAmount {
+  display: block;
+  margin-top: 10px;
+  color: #F44336;
 }
 
 span.invalidAddress, span.invalidAmount {

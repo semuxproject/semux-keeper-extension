@@ -10,11 +10,16 @@ const { decrypt, encrypt, hexBytes, randomSalt, randomIv } = require('./utils.js
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 const FEE = 5000000
 
-function createNewWallet (password) {
+function createEncryptedWallet (privateKey, password) {
   // check by address[0]
   const salt = randomSalt()
   const iv = randomIv()
-  const key = Semux.Key.generateKeyPair()
+  var key
+  if (privateKey) {
+    key = privateKey
+  } else {
+    key = Semux.Key.generateKeyPair()
+  }
   const { encryptedPrivKey } = encrypt({ salt, iv, password, key })
 
   const newWallet = {
@@ -33,11 +38,12 @@ $('button#createWallet').on('click', function (e) {
   chrome.storage.local.get('accounts', (result) => {
     const accounts = result.accounts
     const password = $('input.passwordField').val()
+    if (!password) return $('span.error').text('Password is required')
     var accountName = $('input#accountName').val()
     if (!accountName) {
-      accountName = 'Name ' + String(accounts.length + 1)
+      accountName = `Account ${accounts.length + 1}`
     }
-    const account = createNewWallet(password)
+    const account = createEncryptedWallet(null, password)
     account.name = accountName
     accounts.push(account)
     chrome.storage.local.set({ 'accounts': accounts })
@@ -52,20 +58,25 @@ $('button#importWallet').on('click', function (e) {
   chrome.storage.local.get('accounts', (result) => {
     const accounts = result.accounts
     const importType = $('.selectImportType option:selected').val()
-
+    const password = $('div.importKey input#accountPass').val()
+    if (!password) return $('span.error').text('Password is required')
     // Need to remove dublicates
     if (importType === 'privateKey') {
-      const privateKey = $('input#accountPrivatKey').val()
-      const key = Semux.Key.importEncodedPrivateKey(Buffer.from(privateKey, 'hex'))
-      console.log(key)
+      var key
+      let privateKey = $('input#accountPrivatKey').val().replace(/^0x/, '')
+      try {
+        key = Semux.Key.importEncodedPrivateKey(Buffer.from(privateKey, 'hex'))
+      } catch (e) {
+        return $('span.error').text('Invalid Private Key')
+      }
       const address = '0x' + key.toAddressHexString()
+      const encryptedData = createEncryptedWallet(key, password)
       accounts.push({
-        name: 'Name ' + String(accounts.length + 1),
+        name: `Account ${accounts.length + 1}`,
         address,
-        privateKey
-        // salt
-        // iv
-        // encrypted
+        encrypted: encryptedData.encrypted,
+        salt: encryptedData.salt,
+        iv: encryptedData.iv
       })
       chrome.storage.local.set({ 'accounts': accounts })
       window.location.href = 'home.html'
@@ -85,7 +96,7 @@ $('button#importWallet').on('click', function (e) {
           const encrypted = jsonFile.accounts[0].encrypted
           // test wallet pass = lol123
           accounts.push({
-            name: 'Name ' + String(accounts.length + 1),
+            name: `Account ${accounts.length + 1}`,
             address,
             salt,
             iv,
@@ -104,11 +115,6 @@ $('button#importWallet').on('click', function (e) {
     }
   })
 })
-
-// 0x7692b8b58ab41900423d3e6384b35ba4ab1f50b5
-// 302e020100300506032b6570042204207fb80d72f9f511d874780ca04e8b242e8e3c742f370bb7d9ef7605fd7cc45659
-
-//
 
 function getKey (walletInfo, pass) {
   const privKey = decrypt({
@@ -129,9 +135,6 @@ function getKey (walletInfo, pass) {
     }
   }
 }
-
-// 0x54e2883816e0f42f7f4ebf3fd918bfe9d68bfc32
-// 302e020100300506032b657004220420fa210e075725c26221dc998837dfe802d34e5f6a885a15ebb52939bc49caf028
 
 $('button#passwordConfirm').on('click', function (e) {
   const txObj = {}
@@ -154,7 +157,6 @@ $('button#passwordConfirm').on('click', function (e) {
       if (accounts[i].address === accountAddress) {
         txObj.address = accounts[i].address
         // make it compatible with getKey func
-
         keys = getKey({
           cipher: {
             salt: accounts[i].salt,
@@ -162,7 +164,6 @@ $('button#passwordConfirm').on('click', function (e) {
           },
           accounts: [{ encrypted: accounts[i].encrypted }]
         }, password)
-
         if (keys.error) {
           return $('span.error').text(keys.reason)
         }
@@ -180,16 +181,12 @@ $('button#passwordConfirm').on('click', function (e) {
   })
 })
 
-// 0xfe81ddefe30d7ab28f2ce73bb37d3d42603c4ddf
-// 0xfe81ddefe30d7ab28f2ce73bb37d3d42603c4ddf
-
 async function sendTx (txObj) {
   try {
     var isFrom = await getAddress(txObj.address)
   } catch (e) {
     return { error: true, reason: 'Cannot get nonce' }
   }
-
   const nonce = parseInt(isFrom.nonce, 10) + parseInt(isFrom.pendingTransactionCount, 10)
 
   try {
@@ -221,8 +218,6 @@ async function getAddress (address) {
 
 async function sendTxToApi (tx) {
   const serialize = Buffer.from(tx.toBytes().buffer).toString('hex')
-  console.log(serialize)
-
   try {
     const response = await fetch(API + 'transaction/raw?raw=' + serialize + '&validateNonce=true', {
       method: 'POST',

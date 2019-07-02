@@ -65,6 +65,7 @@ async function fillAccount () {
     const limitFrom = Number(data.result.transactionCount) - 5
     const limitTo = Number(data.result.transactionCount)
     const txsData = await getTxs(data.address, limitFrom, limitTo)
+    console.log(txsData)
     fillTxs(txsData, data.address)
   } else if (data.result.transactionCount > 0) {
     const txsData = await getTxs(data.address, 0, 5)
