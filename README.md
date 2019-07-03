@@ -1,6 +1,6 @@
 # WIP: Semux Keeper Browser Extension
 
-[![Build Status](https://travis-ci.com/semuxproject/semux-keeper-extension.svg?branch=master)](https://travis-ci.com/semuxproject/semux-keeper-extension)
+[![Build Status](https://travis-ci.org/semuxproject/semux-keeper-extension.svg?branch=master)](https://travis-ci.org/semuxproject/semux-keeper-extension)
 
 Semux Keeper is an extension that allows users to securely interact with Semux-enabled web services from the browser.
 
