@@ -83,7 +83,7 @@ $('button.goToApprovePage').on('click', function (e) {
 
     // vote tx
     if (!toAddress) {
-      validatorAddress = $('select.validatorsList option:selected').attr('data-address')
+      validatorAddress = $('select.delegatesList option:selected').attr('data-address')
     }
 
     const accounts = await getAddressFromStorage()
