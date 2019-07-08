@@ -168,14 +168,12 @@ $('button#passwordConfirm').on('click', function (e) {
           return $('span.error').text(keys.reason)
         }
         txObj.privateKey = keys
-
         const hash = await sendTx(txObj)
 
         if (hash) {
           chrome.storage.local.set({ 'txData': {} })
           window.location.href = 'home.html'
         }
-        // update tx list with pending tx
       }
     }
   })
@@ -187,6 +185,8 @@ async function sendTx (txObj) {
   } catch (e) {
     return { error: true, reason: 'Cannot get nonce' }
   }
+  console.log('----------')
+  console.log(isFrom)
   const nonce = parseInt(isFrom.nonce, 10) + parseInt(isFrom.pendingTransactionCount, 10)
 
   try {
@@ -204,6 +204,7 @@ async function sendTx (txObj) {
   } catch (e) {
     console.log(e)
   }
+  console.log(tx)
 
   const hash = await sendTxToApi(tx)
   return hash

@@ -3,7 +3,7 @@
 import { getExchangeRate } from './utils/exchanges.js'
 import { getLastActiveAccount, getAllAccounts } from './utils/accounts.js'
 
-const API = 'https://api.testnet.semux.online/v2.2.0/'
+const API = 'https://api.testnet.semux.online/v2.3.0/'
 
 async function getAccountData () {
   let lastActive = await getLastActiveAccount()
@@ -65,7 +65,7 @@ async function fillAccount () {
     const limitFrom = Number(data.result.transactionCount) - 5
     const limitTo = Number(data.result.transactionCount)
     const txsData = await getTxs(data.address, limitFrom, limitTo)
-    console.log(txsData)
+
     fillTxs(txsData, data.address)
   } else if (data.result.transactionCount > 0) {
     const txsData = await getTxs(data.address, 0, 5)
@@ -79,15 +79,38 @@ fillAccount()
 
 // get Latest 5 txs
 async function getTxs (address, limitFrom, limitTo) {
-  const response = await fetch(API + 'account/transactions?address=' + address + '&from=' + limitFrom + '&to=' + limitTo)
-  const data = await response.json()
-  return data
+  let txArray = []
+  try {
+    var completedTxsCall = await fetch(API + 'account/transactions?address=' + address + '&from=' + limitFrom + '&to=' + limitTo)
+  } catch (e) {
+    console.log('Cannot get confirmed txs')
+    console.error(e)
+  }
+  try {
+    var pendingTxsCall = await fetch(API + 'account/pending-transactions?address=' + address + '&from=0&to=5')
+  } catch (e) {
+    console.log('Cannot get pending txs')
+    console.error(e)
+  }
+  const completedTxs = await completedTxsCall.json()
+  const pendingTxs = await pendingTxsCall.json()
+  txArray = completedTxs.result
+
+  if (pendingTxs.result.length > 0) {
+    for (let pendingTx of pendingTxs.result) {
+      pendingTx.pending = true
+      txArray.push(pendingTx)
+    }
+  }
+  txArray.sort(compare)
+  return txArray
 }
 
 async function fillTxs (data, address) {
   if (!data) return { error: true, reason: 'Node API Drop' }
   let html = ''
-  for (let tx of data.result) {
+  for (let tx of data) {
+    let status = ''
     let value = formatAmount(tx.value)
     const timestamp = tx.timestamp
     let type = tx.to === address ? 'in' : 'out'
@@ -95,9 +118,11 @@ async function fillTxs (data, address) {
       type = 'internal'
     }
     value = type === 'out' ? '-' + value : '+' + value
+    status = tx.pending ? 'pending' : 'confirmed'
     html +=
       `<div class='txElement'><div class='transactionItem'><div class='txDataType'>` +
-      `<p class='tranasctionType'>${tx.type}</p>` +
+      `<p class='transactionType'>${tx.type}` +
+      `<span class = 'transactionStatus ${status}'>${status}</span></p>` +
       `<p class='transactionDate'>${formatDate(timestamp)}</p>` +
       `</div>` +
       `<div class='transactionAmount tx-${type}'>${value} SEM</div><div class='clearfix'></div></div>` +
@@ -141,4 +166,14 @@ function formatAddress (address, symbols) {
 function formatAmount (string) {
   const digit = Number(string) / Math.pow(10, 9)
   return digit
+}
+
+function compare (a, b) {
+  if (a.timestamp > b.timestamp) {
+    return -1
+  }
+  if (a.timestamp < b.timestamp) {
+    return
+  }
+  return 0
 }
