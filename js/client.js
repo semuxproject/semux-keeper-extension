@@ -98,9 +98,11 @@ $('select.selectImportType').on('change', function (e) {
   if (type === 'privateKey') {
     // add ledger here
     $('.importKey').show()
+    $('span.error').text('')
     $('.importJson, .connectLedger').hide()
   } else {
     $('.importJson').show()
+    $('span.error').text('')
     $('.importKey, .connectLedger').hide()
   }
 })

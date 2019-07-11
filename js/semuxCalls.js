@@ -60,7 +60,7 @@ $('button#importWallet').on('click', function (e) {
     const importType = $('.selectImportType option:selected').val()
     const password = $('div.importKey input#accountPass').val()
     if (!password) return $('span.error').text('Password is required')
-    // Need to remove dublicates
+    // privateKey
     if (importType === 'privateKey') {
       var key
       let privateKey = $('input#accountPrivatKey').val().replace(/^0x/, '')
@@ -70,6 +70,8 @@ $('button#importWallet').on('click', function (e) {
         return $('span.error').text('Invalid Private Key')
       }
       const address = '0x' + key.toAddressHexString()
+      const exists = accounts.filter(account => account.address === address.toLowerCase())
+      if (exists.length !== 0) return $('span.error').text('This account already imported, try another one.')
       const encryptedData = createEncryptedWallet(key, password)
       accounts.push({
         name: `Account ${accounts.length + 1}`,
@@ -91,10 +93,12 @@ $('button#importWallet').on('click', function (e) {
           const keys = getKey(jsonFile, pass)
           if (keys.error) return $('span.error').text(keys.reason)
           const address = '0x' + keys.toAddressHexString()
+          const exists = accounts.filter(account => account.address === address.toLowerCase())
+          if (exists.length !== 0) return $('span.error').text('This account already imported, try another one.')
           const salt = jsonFile.cipher.salt
           const iv = jsonFile.cipher.iv
           const encrypted = jsonFile.accounts[0].encrypted
-          // test wallet pass = lol123
+
           accounts.push({
             name: `Account ${accounts.length + 1}`,
             address,

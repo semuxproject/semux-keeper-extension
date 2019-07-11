@@ -1,32 +1,31 @@
 'use strict'
-/* global $, chrome */
+/* global $, chrome, QRCode */
+import { getLastActiveAccount, getAllAccounts } from './utils/accounts.js'
 
 async function fillAccDetailsData () {
-  const addresses = await getAddressFromStorage()
-
-  const latest = addresses.length - 1
-  const address = addresses[latest].address
-  const name = addresses[latest].name
-
-  // var qrcode = new QRCode('qrcode', {
-  //   text: address,
-  //   width: 180,
-  //   height: 180,
-  //   colorDark: '#000000',
-  //   colorLight: '#ffffff',
-  //   correctLevel: QRCode.CorrectLevel.H
-  // })
-  $('p.accountName').text(name)
-  $('div.hexAddress span').text(address)
-  $('div.hexAddress span').attr('data-address', address)
+  let lastActive = await getLastActiveAccount()
+  /* If for some reason last active account is not found, set the first one as active */
+  if (!lastActive) {
+    lastActive = (await getAllAccounts())[0]
+  }
+  if (!lastActive) {
+    return { error: true, code: 'NO_ACCOUNT' }
+  } else {
+    chrome.storage.local.set({ 'lastActiveAccount': {
+      name: lastActive.name,
+      address: lastActive.address
+    } })
+  }
+  $('div.hexAddress span').text(lastActive.address)
+  $('div.hexAddress span').attr('data-address', lastActive.address)
+  var qrcode = new QRCode('qrcode', {
+    width: 180,
+    height: 180,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  })
+  qrcode.makeCode(lastActive.address)
 }
 
 fillAccDetailsData()
-
-function getAddressFromStorage () {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('accounts', (result) => {
-      resolve(result.accounts)
-    })
-  })
-}
