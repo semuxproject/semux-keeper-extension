@@ -60,25 +60,39 @@ async function fillAccount () {
     $('p.usdValue').hide()
   }
   $('.semLocked').prepend('<span>' + lockedBal.toFixed(3) + ' SEM</span>')
-  // getTxs
+}
+
+async function updateTxsList () {
+  const data = await getAccountData()
   if (data.result.transactionCount > 5) {
-    const limitFrom = Number(data.result.transactionCount) - 5
+    // show latest 10 txs
+    const limitFrom = Number(data.result.transactionCount) - 10
     const limitTo = Number(data.result.transactionCount)
     const txsData = await getTxs(data.address, limitFrom, limitTo)
+    // if we get pending tx - that to setInterval(updateTxsList, 1000*60) else noting
 
-    fillTxs(txsData, data.address)
+    fillTxs(txsData.txs, data.address)
+    if (txsData.pending) {
+      console.log('Update TxsList')
+      setInterval(updateTxsList, 1000 * 10)
+    }
   } else if (data.result.transactionCount > 0) {
     const txsData = await getTxs(data.address, 0, 5)
-    fillTxs(txsData, data.address)
+    fillTxs(txsData.txs, data.address)
+    if (txsData.pending) {
+      console.log('Update TxsList')
+      setInterval(updateTxsList, 1000 * 10)
+    }
   } else {
     $('.transactionList').append("<p class = 'noTxs gray'>No Transactions</p>")
   }
 }
-
 fillAccount()
-
+updateTxsList()
+// update tranasction list every minute
 // get Latest 5 txs
 async function getTxs (address, limitFrom, limitTo) {
+  let isPending = false
   let txArray = []
   try {
     var completedTxsCall = await fetch(API + 'account/transactions?address=' + address + '&from=' + limitFrom + '&to=' + limitTo)
@@ -101,12 +115,14 @@ async function getTxs (address, limitFrom, limitTo) {
       pendingTx.pending = true
       txArray.push(pendingTx)
     }
+    isPending = true
   }
   txArray.sort(compare)
-  return txArray
+  return { txs: txArray, pending: isPending }
 }
 
 async function fillTxs (data, address) {
+  $('.transactionList').html('')
   if (!data) return { error: true, reason: 'Node API Drop' }
   let html = ''
   for (let tx of data) {
@@ -147,7 +163,7 @@ function formatDate (string) {
   newDate.setTime(string)
   const month = newDate.getMonth() + 1
   const year = newDate.getFullYear()
-  const day = newDate.getDay() + 1
+  const day = newDate.getDate()
   const minutes = newDate.getMinutes()
   const hours = newDate.getHours()
   const mmddyy = month + '/' + day + '/' + year + ' at ' + hours + ':' + minutes
