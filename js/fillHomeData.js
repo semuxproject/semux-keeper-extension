@@ -5,6 +5,9 @@ import { getLastActiveAccount, getAllAccounts } from './utils/accounts.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
+/* Reset old txs */
+chrome.storage.local.set({ 'txData': {} })
+
 async function getAccountData () {
   let lastActive = await getLastActiveAccount()
   /* If for some reason last active account is not found, set the first one as active */
@@ -65,7 +68,6 @@ async function fillAccount () {
     const limitFrom = Number(data.result.transactionCount) - 5
     const limitTo = Number(data.result.transactionCount)
     const txsData = await getTxs(data.address, limitFrom, limitTo)
-    console.log(txsData)
     fillTxs(txsData, data.address)
   } else if (data.result.transactionCount > 0) {
     const txsData = await getTxs(data.address, 0, 5)

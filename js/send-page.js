@@ -1,27 +1,28 @@
 'use strict'
 /* global $, chrome, fetch */
-import { getExchangeRate } from './utils/exchanges.js'
 import { getLastActiveAccount } from './utils/accounts.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
 var userAmount
 
-async function fillSenderData () {
+async function getSender () {
   let activeAccount = await getLastActiveAccount()
-  const response = await fetch(API + 'account?address=' + activeAccount.address)
-  const addressData = await response.json()
+  let addressData = {}
+  try {
+    addressData = await fetch(API + 'account?address=' + activeAccount.address)
+    addressData = await addressData.json()
+  } catch (e) {
+    /* TODO: display error */
+    return console.error(e)
+  }
+
   const availableBal = formatAmount(addressData.result.available)
   userAmount = availableBal
-  const price = await getExchangeRate('usd')
-  const usdAmount = (price * availableBal).toFixed(2)
-  $('div.senderAccount p.senderName').text(activeAccount.name)
-  $('div.senderAccount p.senderAmount').text((availableBal).toFixed(5) + ' SEM')
-  $('div.senderAccount p.senderUsdValue').text(usdAmount + ' USD')
-  if (!parseFloat(usdAmount)) {
-    $('div.senderAccount p.senderUsdValue').hide()
-  }
-  // if we have some data in txData -> then we need to fill all fields
+
+  $('p.senderName').text(activeAccount.address)
+  $('p.senderAmount').text((availableBal).toFixed(9) + ' SEM')
+
   chrome.storage.local.get('txData', (result) => {
     if (result.txData) {
       $('input.toAddress').val(result.txData.toAddress)
@@ -30,11 +31,11 @@ async function fillSenderData () {
   })
 }
 
-fillSenderData()
+getSender()
 
 $('input.toAddress').on('change', function (e) {
-  const value = $(this).val()
-  if (!isAddress(value)) {
+  const to = $(this).val()
+  if (!isAddress(to)) {
     $('button.goToApprovePage').prop('disabled', true)
     $('span.invalidAddress').show()
     $('span.invalidAddress').text('Invalid address')
@@ -45,11 +46,8 @@ $('input.toAddress').on('change', function (e) {
 })
 
 $('input.amount').on('change', function (e) {
-  let value = $(this).val()
-  if (value.includes(',')) {
-    value = value.replace(/,/g, '.')
-  }
-  let amount = parseFloat(value)
+  let amount = $(this).val().replace(/,/g, '.')
+  amount = parseFloat(amount)
   if (!amount || amount > userAmount + 0.005) {
     $('button.goToApprovePage').prop('disabled', true)
     $('span.invalidAmount').show()
@@ -62,17 +60,26 @@ $('input.amount').on('change', function (e) {
 
 $('button.goToApprovePage').on('click', function (e) {
   e.preventDefault()
-  const toAddress = $('input.toAddress').val()
+  $('p.error').text('').hide()
+  let toAddress = $('input.toAddress').val()
+  if (!toAddress) {
+    toAddress = $('select.delegatesList option:selected').attr('data-address')
+  }
   const amount = $('input.amount').val()
-  var type = $('h3.h3title').text()
-  type = type.split(' ')[0]
-  if (type === 'Send') {
-    if (!amount || !toAddress) {
-      return $('span.error').text('Please input amount and reciever')
+  const type = $('body').data('type')
+  if (type === 'TRANSFER') {
+    if (!toAddress) {
+      return $('p.error').text('Not valid recipient').show()
     }
-  } else {
     if (!amount) {
-      return $('span.error').text('Please input amount and valdiator')
+      return $('p.error').text('The amount should be greater than 0.').show()
+    }
+  } else if (type === 'VOTE') {
+    if (!toAddress) {
+      return $('p.error').text('Select delegate').show()
+    }
+    if (!amount || parseInt(amount, 10) <= 0) {
+      return $('p.error').text('The amount should be greater than 0.').show()
     }
   }
   console.log(type)
@@ -83,7 +90,7 @@ $('button.goToApprovePage').on('click', function (e) {
 
     // vote tx
     if (!toAddress) {
-      validatorAddress = $('select.validatorsList option:selected').attr('data-address')
+      validatorAddress = $('select.delegatesList option:selected').attr('data-address')
     }
 
     const accounts = await getAddressFromStorage()
@@ -96,7 +103,7 @@ $('button.goToApprovePage').on('click', function (e) {
     }
 
     chrome.storage.local.set({ 'txData': {
-      type: type || 'Transfer',
+      type: type,
       accountName: activeAccount.name,
       fromAddress,
       privateKeySeleted,
@@ -116,14 +123,9 @@ function getAddressFromStorage () {
 }
 
 function formatAmount (string) {
-  const digit = Number(string) / Math.pow(10, 9)
-  return digit
+  return Number(string) / 1e9
 }
 
 function isAddress (address) {
-  if (address.length === 42) {
-    return true
-  } else {
-    return false
-  }
+  return (/^(0x){1}[0-9a-fA-F]{40}$/i.test(address))
 }
