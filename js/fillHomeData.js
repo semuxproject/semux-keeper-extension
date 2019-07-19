@@ -5,6 +5,9 @@ import { getLastActiveAccount, getAllAccounts } from './utils/accounts.js'
 
 const API = 'https://api.testnet.semux.online/v2.2.0/'
 
+/* Reset old txs */
+chrome.storage.local.set({ 'txData': {} })
+
 async function getAccountData () {
   let lastActive = await getLastActiveAccount()
   /* If for some reason last active account is not found, set the first one as active */

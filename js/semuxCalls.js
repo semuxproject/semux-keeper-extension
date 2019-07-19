@@ -131,7 +131,7 @@ function getKey (walletInfo, pass) {
   } catch (err) {
     return {
       error: true,
-      reason: 'Invalid password.'
+      reason: 'Password incorrect.'
     }
   }
 }

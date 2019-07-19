@@ -17,10 +17,6 @@ a {
   text-decoration: none;
 }
 
-p {
-  margin-bottom: 0 !important;
-}
-
 ul {
   list-style: none;
 }
@@ -55,30 +51,38 @@ ul {
   color: #808080;
 }
 
-.buttons {
-  margin-top: 8px;
+.main-button {
+  cursor: pointer;
+  background: radial-gradient(ellipse at 100% 100%, #265DD7 0%, #0582CA 100%);
+  color: white;
+  transition: transform .4s ease, box-shadow .4s ease;
+  box-shadow: 0 0.375rem 1.3125rem rgba(0, 0, 0, 0.15);
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  padding: 10px 0 10px 0;
+  border-radius: 30px;
 }
 
-.buttons button {
-  color: #037DD6;
-  width: 90px;
-  border: 2px solid #B0D7F2;
-  background-color: #fff;
+.main-button:hover {
+  background: radial-gradient(ellipse at 100% 100%, #265DD7 0%, #098ad4 100%);
 }
 
-.buttons button:hover {
-  border: 2px solid #FFC04C;
-}
-
-button.btn-cancel {
-  background-color: #ccc;
-  border: 2px solid #666666;
-}
-
-p.error, span.error, span.invalidAddress, span.invalidAmount {
+a.btn-link {
   display: block;
-  margin-top: 10px;
-  color: #F44336;
+  text-align: center;
+  color: #a7a7a7;
+  margin: 10px 0;
+}
+
+p.error,
+span.error {
+  color: #D94432;
+  text-align: center;
+  font-size: 14px;
+  padding: 5px 0;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 span.invalidAddress, span.invalidAmount {
@@ -125,7 +129,8 @@ span.invalidAddress, span.invalidAmount {
   box-shadow: 0 17px 43px 0 rgba(0, 0, 0, 0.2);
 }
 
-button.welcome-button:focus {
+button.welcome-button:focus,
+button.main-button:focus {
   outline: 0;
 }
 
@@ -279,6 +284,7 @@ p.hint {
 .app-footer {
   height: 100px;
   margin-top: 15px;
+  padding: 0 15px;
 }
 
 .txDataType {
@@ -387,14 +393,12 @@ p.hint {
 /* -------->  Fix to the main style ? */
 .new-account .buttons, .sendTxBlock .buttons, .confirmPage .buttons {
   margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
 }
-.new-account .buttons button, .sendTxBlock .buttons button,
+/* .new-account .buttons button, .sendTxBlock .buttons button,
 .confirmPage .buttons button {
   height: 50px;
   width: 160px;
-}
+} */
 
 input.customInput{
   padding: 0 20px;
@@ -461,6 +465,15 @@ button.green-button:hover {
 
 
 /* Send And Vote Page */
+.senderAccount p {
+  margin: 0;
+}
+
+.senderName {
+  font-size: 13px;
+  color: gray;
+  margin: 0;
+}
 
 .sendTxBlock .flex, .confirmPage .flex {
   margin-top: 8px;
@@ -468,19 +481,8 @@ button.green-button:hover {
   justify-content: space-between;
 }
 
-
-.sendTxBlock .flex input.customInput, .sendTxBlock .senderAccount {
-  width: 70%;
-}
-
 .h3Headline .goToHomePage:hover {
   cursor: pointer;
-}
-
-.senderAccount {
-  padding: 0 20px;
-  font-size: 16px;
-  border: 1px solid #d2d8dd;
 }
 
 /* Home Page */
@@ -683,4 +685,9 @@ select.customSelect {
 a.back-link {
   color: #444;
   text-decoration: underline;
+}
+
+div.delegatesList {
+  width: 100% !important;
+  margin: 10px 0;
 }

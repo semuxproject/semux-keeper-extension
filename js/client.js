@@ -7,7 +7,6 @@ $(function () {
 
 $('.goToHomePage').on('click', function (e) {
   e.preventDefault()
-  chrome.storage.local.set({ 'txData': {} })
   window.location.href = 'home.html'
 })
 
@@ -57,7 +56,12 @@ $('div.goToNewAccPage, button.goToNewAccPage').on('click', function (e) {
 
 $('a.goToSendPage, div.goToSendPage').on('click', function (e) {
   e.preventDefault()
-  window.location.href = 'send.html'
+  const txType = $('.confirmType').text()
+  if (txType && txType === 'VOTE') {
+    window.location.href = 'vote.html'
+  } else {
+    window.location.href = 'send.html'
+  }
 })
 
 $('a.goToVotePage').on('click', function (e) {
@@ -80,9 +84,8 @@ $('button.goToStex').on('click', function (e) {
   chrome.tabs.create({ url: 'https://app.stex.com/en/basic-trade/pair/BTC/SEM/1D' })
 })
 
-$('button.btn-cancel').on('click', function (e) {
+$('.btn-cancel').on('click', function (e) {
   e.preventDefault()
-  chrome.storage.local.set({ 'txData': {} })
   window.location.href = 'home.html'
 })
 
