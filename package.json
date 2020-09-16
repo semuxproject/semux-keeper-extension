@@ -30,7 +30,7 @@
     "buffer": "^5.2.1",
     "jquery": "^3.4.1",
     "long": "^4.0.0",
-    "node-forge": "^0.8.4",
+    "node-forge": "^0.10.0",
     "semux-js": "^1.4.0"
   },
   "devDependencies": {
